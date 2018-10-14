@@ -1,5 +1,5 @@
 # Serverless Node.js Starter
-
+The reason we are doing this is because Serverless Framework uses the service name to identify projects. Since we are creating a new project we want to ensure that we use a different name from the original. Now we could have simply overwritten the existing project but the resources were previously created by hand and will conflict when we try to create them through code.
 
 
 ``` javascript
