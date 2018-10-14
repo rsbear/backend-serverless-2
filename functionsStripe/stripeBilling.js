@@ -5,7 +5,7 @@ import { success, failure } from "./../libs/response-lib";
 export async function main(event, context, callback) {
   const { storage, source } = JSON.parse(event.body);
   const amount = calculateCost(storage);
-  const description = "Scratch charge";
+  const description = "Revive Archives charge";
 
   // Load our secret key from the  environment variables
   const stripe = stripePackage(process.env.stripeSecretKey);
