@@ -131,7 +131,7 @@ functions:
     handler: stripeBilling.main
     events:
       - http:
-          path: billing
+          path: createcharge
           method: post
           cors: true
           authorizer: aws_iam
