@@ -130,7 +130,7 @@ functions:
 
   # stripe.charges.create
   stripeBilling:
-    handler: stripeBilling.main
+    handler: functionsStripe/stripeBilling.main
     events:
       - http:
           path: createcharge
