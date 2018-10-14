@@ -65,7 +65,7 @@ functions:
     handler: functionsUsers/create.main
     events:
       - http:
-          path: revive
+          path: rgc
           method: post
           cors: true
           authorizer: aws_iam
@@ -77,7 +77,7 @@ functions:
     handler: functionsUsers/get.main
     events:
       - http:
-          path: revive/{id}
+          path: rgc/{id}
           method: get
           cors: true
           authorizer: aws_iam
@@ -89,7 +89,7 @@ functions:
     handler: functionsUsers/list.main
     events:
       - http:
-          path: revive
+          path: rgc
           method: get
           cors: true
           authorizer: aws_iam
@@ -101,7 +101,7 @@ functions:
     handler: functionsUsers/update.main
     events:
       - http:
-          path: revive/{id}
+          path: rgc/{id}
           method: put
           cors: true
           authorizer: aws_iam
@@ -113,7 +113,7 @@ functions:
     handler: functionsUsers/delete.main
     events:
       - http:
-          path: revive/{id}
+          path: rgc/{id}
           method: delete
           cors: true
           authorizer: aws_iam
