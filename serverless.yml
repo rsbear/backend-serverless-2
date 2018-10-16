@@ -131,13 +131,13 @@ functions:
 
   #stripe.products.retrieve
   fetchProduct:
-    handler: functionsStripe/fetchProduct.handler
+    handler: functionsStripe/fetchProduct.main
     events:
       - http:
-        path: product
-        method: get
-        cors: true
-        authorizer: aws_iam
+          path: product
+          method: get
+          cors: true
+          authorizer: aws_iam
 
 
   # stripe.create.customer

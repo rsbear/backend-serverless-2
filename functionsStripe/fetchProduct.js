@@ -1,31 +1,22 @@
 import stripePackage from "stripe";
-const stripe = stripePackage(process.env.stripeSecretKey);
+import { success, failure } from "./../libs/response-lib";
 
-module.exports.handler = (event, context, callback) => {
-  return stripe.products.retrieve(
-    id
-  ).then((product) => {
-    const response = {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        data: product.data
-      }),
-    };
-    callback(null, response);
-  }).catch((err) => { // Error response
-    console.log(err);
-    const response = {
-      statusCode: 500,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        error: err.message,
-      }),
-    };
-    callback(null, response);
-  });
-};
+export async function main(event, context, callback) {
+  const { id } = JSON.parse(event.body);
+  // Load our secret key from the  environment variables
+  const stripe = stripePackage(process.env.stripeSecretKey);
+
+  try {
+    await stripe.products.retrieve({ 
+        statusCode: 200,
+        headers: {
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: id
+      })
+      
+    callback(null, success({ status: true}));
+  } catch (e) {
+    callback(null, failure({ message: e.message }));
+  }
+}
