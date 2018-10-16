@@ -135,7 +135,7 @@ functions:
     events:
       - http:
           path: createcustomer
-          method: get
+          method: post
           cors: true
           authorizer: aws_iam
 
