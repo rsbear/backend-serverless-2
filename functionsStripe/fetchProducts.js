@@ -1,30 +1,27 @@
-const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-module.exports.handler = (event, context, callback) => {
-  return stripe.products.list(
-      {limit: 10}).then((products) => {
-    const response = {
-      statusCode: 200,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        data: products.data
-      }),
-    };
-    callback(null, response);
-  })
-  .catch((err) => { // Error response
-    console.log(err);
-    const response = {
-      statusCode: 500,
-      headers: {
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        error: err.message,
-      }),
-    };
-    callback(null, response);
-  });
-};
+
+
+import stripePackage from "stripe";
+
+export async function main(event, context, callback) {
+  const { storage, source } = JSON.parse(event.body);
+  const description = "Revive Archives charge";
+
+  // Load our secret key from the  environment variables
+  const stripe = stripePackage(process.env.stripeSecretKey);
+
+  try {
+    return stripe.products.list({ limit: 20})
+      .then((products) => {
+        const response = {
+          body: JSON.stringify({
+            data: products.data
+          })
+        }
+        callback(null, response)
+      });
+  } catch (e) {
+    callback(null, failure({ message: e.message }));
+  }
+}
+

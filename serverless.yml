@@ -126,17 +126,29 @@ functions:
       - http:
           path: products
           method: get
-          cors: 
+          cors: true
+          authorizer: aws_iam
+
+  # stripe.create.customer
+  createCustomer:
+    handler: functionsStripe/createCustomer.handler
+    events:
+      - http:
+          path: createcustomer
+          method: get
+          cors: true
+          authorizer: aws_iam
 
   # stripe.charges.create
   stripeBilling:
     handler: functionsStripe/stripeBilling.main
     events:
       - http:
-          path: createcharge
+          path: billing
           method: post
           cors: true
           authorizer: aws_iam
+          
 
 
 
