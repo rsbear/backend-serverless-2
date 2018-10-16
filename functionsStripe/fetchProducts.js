@@ -11,15 +11,10 @@ export async function main(event, context, callback) {
   const stripe = stripePackage(process.env.stripeSecretKey);
 
   try {
-    return stripe.products.list({ limit: 20})
-      .then((products) => {
-        const response = {
-          body: JSON.stringify({
-            data: products.data
-          })
-        }
-        callback(null, response)
-      });
+    return stripe.products.list({ 
+      limit: 20,
+      products
+    }) 
   } catch (e) {
     callback(null, failure({ message: e.message }));
   }
