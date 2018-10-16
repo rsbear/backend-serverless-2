@@ -129,6 +129,17 @@ functions:
           cors: true
           authorizer: aws_iam
 
+  #stripe.products.retrieve
+  fetchProduct:
+    handler: functionsStripe/fetchProduct.handler
+    events:
+      - http:
+        path: product
+        method: get
+        cors: true
+        authorizer: aws_iam
+
+
   # stripe.create.customer
   createCustomer:
     handler: functionsStripe/createCustomer.handler
