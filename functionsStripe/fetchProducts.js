@@ -1,10 +1,7 @@
-
-
-
 import stripePackage from "stripe";
 
 export async function main(event, context, callback) {
-  const { storage, source } = JSON.parse(event.body);
+  const { products } = JSON.parse(event.body);
   const description = "Revive Archives charge";
 
   // Load our secret key from the  environment variables
