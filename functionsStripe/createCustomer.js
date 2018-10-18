@@ -1,25 +1,45 @@
-import stripePackage from "stripe";
-import { calculateCost } from "./../libs/billing-lib";
-import { success, failure } from "./../libs/response-lib";
+const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 
-export async function main(event, context, callback) {
-  const { email, storage, source } = JSON.parse(event.body);
-  const amount = calculateCost(storage);
-  const description = "Revive Archives charge";
+module.exports.handler = (event, context, callback) => {
+  const requestBody = JSON.parse(event.body)
 
-  // Load our secret key from the  environment variables
-  const stripe = stripePackage(process.env.stripeSecretKey);
+  const source = requestBody.customer.source.id
+  const ownerEmail = requestBody.ownerInfo.email
 
-  try {
-    await stripe.charges.create({
-      email,
-      source,
-      amount,
-      description,
-      currency: "usd"
-    });
-    callback(null, success({ status: true }));
-  } catch (e) {
-    callback(null, failure({ message: e.message }));
-  }
+  return stripe.customers.create({
+    email: ownerEmail,
+    source: source,
+  }).then((customer) => {
+
+      return stripe.subscriptions.create({
+        customer: customer.id,
+        items: [{ plan: 'plan_DRiOMV2B1we4Rm' }] 
+      }).then((customer) => {;
+        const response = {
+          statusCode: 200,
+          headers: {
+            'Access-Control-Allow-Origin': '*',
+          },
+          body: JSON.stringify({
+            message: `Customer created and subscribed succesfully!`,
+            customer,
+          }),
+        };
+        callback(null, response);
+      })
+    })
+
+  .catch((err) => { // Error response
+    console.log(err);
+    const response = {
+      statusCode: 500,
+      headers: {
+        'Access-Control-Allow-Origin': '*',
+      },
+      body: JSON.stringify({
+        error: err.message,
+      }),
+    };
+    callback(null, response);
+  })
 }

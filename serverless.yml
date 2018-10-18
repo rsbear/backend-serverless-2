@@ -121,24 +121,29 @@ functions:
 
   # stripe functions section
   fetchProducts:
-    handler: functionsStripe/fetchProducts.handler
+    handler: functionsStripe/fetchProducts.main
     events:
       - http:
           path: products
           method: get
           cors: true
-          authorizer: aws_iam
+  # stripe functions section
+  fetchSkus:
+    handler: functionsStripe/fetchSkus.main
+    events:
+      - http:
+          path: skus
+          method: get
+          cors: true
 
   #stripe.products.retrieve
   fetchProduct:
-    handler: functionsStripe/fetchProduct.main
+    handler: functionsStripe/fetchProduct.handler
     events:
       - http:
           path: product
           method: get
           cors: true
-          authorizer: aws_iam
-
 
   # stripe.create.customer
   createCustomer:
@@ -148,7 +153,6 @@ functions:
           path: createcustomer
           method: post
           cors: true
-          authorizer: aws_iam
 
   # stripe.charges.create
   stripeBilling:
